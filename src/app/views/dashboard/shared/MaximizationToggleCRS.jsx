@@ -65,11 +65,11 @@ const MaximizationToggleCRS = () => {
     <Grid container sx={{ mb: 3 }}>
       <Grid item xs={6}>
         <ContentBox>
-          <span style={{ paddingRight: 40, paddingLeft: 30 }}>Yield Maximization</span>
+          <span style={{ paddingLeft: 10, paddingRight: 40 }}>Yield Maximization</span>
           <FormGroup>
             <FormControlLabel control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />} />
           </FormGroup>
-          <span style={{ paddingRight: 30, paddingLeft: 20 }}>Profit Maximization</span>
+          <span style={{ paddingLeft: 10, paddingRight: 30 }}>Profit Maximization</span>
         </ContentBox>
       </Grid>
     </Grid>

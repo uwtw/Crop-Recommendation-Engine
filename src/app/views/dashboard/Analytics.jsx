@@ -4,14 +4,13 @@ import Campaigns from './shared/Campaigns';
 import DoughnutChart from './shared/Doughnut';
 import LocationDropDownCRS from './shared/LocationDropDownCRS';
 import MaximizationToggleCRS from './shared/MaximizationToggleCRS';
-import CropMonthToggleCRS from './shared/CropMonthToggleCRS';
 import RowCards from './shared/RowCards';
 import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 import TopSellingTable from './shared/TopSellingTable';
 import UpgradeCard from './shared/UpgradeCard';
 import OutputCRS from './shared/OutputCRS';
-import CropMonthDropDownCRS from './shared/CropMonthDropDownCRS';
+import CropMonthDropDownCRS from './shared/CropMonthComponentsCRS';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -67,7 +66,6 @@ const Analytics = () => {
             <StyledCard>
               <MaximizationToggleCRS />
               <LocationDropDownCRS />
-              <CropMonthToggleCRS />
               <CropMonthDropDownCRS />
               <InnerContentBox>
                 <Button variant="contained">Submit</Button>

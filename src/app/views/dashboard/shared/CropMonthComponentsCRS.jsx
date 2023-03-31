@@ -1,12 +1,23 @@
-import { Grid, styled } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Switch from '@mui/material/Switch';
+import {
+  Box,
+  Grid,
+  styled,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Switch,
+  FormGroup,
+  FormControlLabel,
+} from '@mui/material';
+import * as React from 'react';
 
-const ContentBox = styled('div')(() => ({
+const ContentBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
+  '& small': { color: theme.palette.text.secondary },
+  '& .icon': { opacity: 0.6, fontSize: '44px', color: theme.palette.primary.main },
 }));
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -60,20 +71,91 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const CropMonthToggleCRS = () => {
-  return (
+const CropMonthComponentsCRS = () => {
+  const [crop, setCrop] = React.useState('');
+  const [time, setTime] = React.useState('');
+  const [cropSelection, setCropSelection] = React.useState(true);
+
+  const handleChangeCrop = (event) => {
+    setCrop(event.target.value);
+  };
+
+  const handleChangeTime = (event) => {
+    setTime(event.target.value);
+  };
+
+  const handleToggleChange = (event) => {
+    setCropSelection(!cropSelection);
+  }
+
+  const cropList = ['Wheat', 'Jowar', 'Ragi', 'Maize', 'Paddy', 'Rice', 'Cotton', 'Corn'];
+  const timeList = ['Kharif season', 'Rabi season', 'Summer season'];
+
+  const cropTimeToggle = (
     <Grid container sx={{ mb: 3 }}>
       <Grid item xs={6}>
         <ContentBox>
           <span style={{ paddingLeft: 10, paddingRight: 30 }}>Select Crop</span>
           <FormGroup>
-            <FormControlLabel control={<MaterialUISwitch defaultChecked />} />
+            <FormControlLabel control={<MaterialUISwitch onChange={handleToggleChange} />} />
           </FormGroup>
           <span style={{ paddingLeft: 10, paddingRight: 10 }}>Select Time/Season</span>
         </ContentBox>
       </Grid>
     </Grid>
   );
+
+  const cropTimeDropDown = (
+    <Grid container spacing={3} sx={{ mb: '24px' }}>
+      <Grid item xs={12} md={6}>
+        <ContentBox>
+          <FormControl disabled={!cropSelection} sx={{ m: 1, minWidth: 400 }}>
+            <InputLabel id="demo-controlled-open-select-label">Crop</InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select"
+              value={crop}
+              label="Crop"
+              onChange={handleChangeCrop}
+            >
+              {cropList.map((crop, index) => (
+                <MenuItem key={index} value={crop}>
+                  {crop}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </ContentBox>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <ContentBox>
+          <FormControl disabled={cropSelection} sx={{ m: 1, minWidth: 400 }}>
+            <InputLabel id="demo-controlled-open-select-label">Time</InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select"
+              value={time}
+              label="time"
+              onChange={handleChangeTime}
+            >
+              {timeList.map((time, index) => (
+                <MenuItem key={index} value={time}>
+                  {time}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </ContentBox>
+      </Grid>
+    </Grid>
+  );
+
+  return (
+    <React.Fragment>
+      {cropTimeToggle}
+      {cropTimeDropDown}
+    </React.Fragment>
+  );
 };
 
-export default CropMonthToggleCRS;
+export default CropMonthComponentsCRS;
