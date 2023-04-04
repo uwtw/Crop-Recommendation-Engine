@@ -2,6 +2,7 @@ import { Grid, styled } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Switch from '@mui/material/Switch';
+import React from 'react';
 
 const ContentBox = styled('div')(() => ({
   display: 'flex',
@@ -60,16 +61,25 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const MaximizationToggleCRS = () => {
+const MaximizationToggleCRS = (props) => {
+
   return (
     <Grid container sx={{ mb: 3 }}>
       <Grid item xs={6}>
         <ContentBox>
-          <span style={{ paddingLeft: 10, paddingRight: 40 }}>Yield Maximization</span>
+          <span style={{ paddingLeft: 10, paddingRight: 40 }}>
+            Yield Maximization
+          </span>
           <FormGroup>
-            <FormControlLabel control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />} />
+            <FormControlLabel
+              control={
+                <MaterialUISwitch sx={{ m: 1 }} defaultChecked={false} onChange={(event) => {props.changeMode(event.target.checked)}} />
+              }
+            />
           </FormGroup>
-          <span style={{ paddingLeft: 10, paddingRight: 30 }}>Profit Maximization</span>
+          <span style={{ paddingLeft: 10, paddingRight: 30 }}>
+            Profit Maximization
+          </span>
         </ContentBox>
       </Grid>
     </Grid>

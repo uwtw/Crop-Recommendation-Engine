@@ -11,30 +11,23 @@ const ContentBox = styled(Box)(({ theme }) => ({
   '& .icon': { opacity: 0.6, fontSize: '44px', color: theme.palette.primary.main },
 }));
 
-const LocationDropDownCRS = () => {
-  const [state, setState] = React.useState('');
-  const [district, setDistrict] = React.useState('');
-
-  const handleChangeState = (event) => {
-    setState(event.target.value);
-  };
-
-  const handleChangeDistrict = (event) => {
-    setDistrict(event.target.value);
-  };
+const LocationDropDownCRS = (props) => {
 
   return (
-    <Grid container spacing={3} sx={{ mb: '24px' }}>
+    <Grid container spacing={3} sx={{ mb: "24px" }}>
       <Grid item xs={12} md={6}>
         <ContentBox>
           <FormControl sx={{ m: 1, minWidth: 400 }}>
-            <InputLabel id="demo-controlled-open-select-label">State</InputLabel>
+            <InputLabel id="demo-controlled-open-select-label">
+              State
+            </InputLabel>
             <Select
               labelId="demo-controlled-open-select-label"
               id="demo-controlled-open-select"
-              value={state}
               label="State"
-              onChange={handleChangeState}
+              onChange={(event) => {
+                props.changeState(event.target.value);
+              }}
             >
               {Object.entries(location).map(([state, value], index) => (
                 <MenuItem key={index} value={state}>
@@ -48,15 +41,18 @@ const LocationDropDownCRS = () => {
       <Grid item xs={12} md={6}>
         <ContentBox>
           <FormControl sx={{ m: 1, minWidth: 400 }}>
-            <InputLabel id="demo-controlled-open-select-label">District</InputLabel>
+            <InputLabel id="demo-controlled-open-select-label">
+              District
+            </InputLabel>
             <Select
               labelId="demo-controlled-open-select-label"
               id="demo-controlled-open-select"
-              value={district}
-              label="district"
-              onChange={handleChangeDistrict}
+              label="District"
+              onChange={(event) => {
+                props.changeDistrict(event.target.value);
+              }}
             >
-              {location[state].map((district, index) => (
+              {location[props.state].map((district, index) => (
                 <MenuItem key={index} value={district}>
                   {district}
                 </MenuItem>

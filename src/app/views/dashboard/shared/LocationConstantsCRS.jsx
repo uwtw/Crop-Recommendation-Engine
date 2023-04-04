@@ -13,6 +13,7 @@ export const location = {
   'Jammu and Kashmir': [],
   'Jharkhand': [],
   'Karnataka': [
+    '',
     'Bagalkot',
     'Ballari (Bellary)',
     'Belagavi (Belgaum)',
@@ -47,6 +48,7 @@ export const location = {
   'Kerala': [],
   'Madhya Pradesh': [],
   'Maharashtra': [
+    '',
     'Ahmednagar',
     'Akola',
     'Amravati',
@@ -94,6 +96,7 @@ export const location = {
   'Sikkim': [],
   'Tamil Nadu': [],
   'Telangana': [
+    '',
     'Adilabad',
     'Bhadradri Kothagudem',
     'Hyderabad',

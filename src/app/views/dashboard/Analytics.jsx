@@ -1,5 +1,5 @@
 import { Card, Grid, styled, useTheme, Button, Box } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import Campaigns from './shared/Campaigns';
 import DoughnutChart from './shared/Doughnut';
 import LocationDropDownCRS from './shared/LocationDropDownCRS';
@@ -10,7 +10,9 @@ import StatCards2 from './shared/StatCards2';
 import TopSellingTable from './shared/TopSellingTable';
 import UpgradeCard from './shared/UpgradeCard';
 import OutputCRS from './shared/OutputCRS';
-import CropMonthDropDownCRS from './shared/CropMonthComponentsCRS';
+import CropMonthComponentsCRS from "./shared/CropMonthComponentsCRS";
+import axios from "axios";
+import React from 'react';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -58,21 +60,98 @@ const H4 = styled('h4')(({ theme }) => ({
 const Analytics = () => {
   const { palette } = useTheme();
 
+  const [mode, setMode] = React.useState('yield');
+  const [ state, setState ] = React.useState('');
+  const [ district, setDistrict ] = React.useState('');
+  const [ cropSelection, setCropSelection ] = React.useState(true);
+  const [ crop, setCrop ] = React.useState('');
+  const [ time, setTime ] = React.useState('');
+  const [ output, setOutput ] = useState('');
+
+  const changeMode = (state) => {
+    if (state === true) {
+      setMode("profit");
+    } else {
+      setMode("yield");
+    }
+    console.log("mode changed.", mode);
+  }
+
+  const changeState = (state) => {
+    setState(state);
+    console.log("state: ",state);
+  }
+
+  const changeDistrict = (district) => {
+    setDistrict(district);
+    console.log("District: ", district);
+  }
+
+  const changeCropSelection = () => {
+    console.log("Crop selection before: ", cropSelection);
+    setCropSelection(!cropSelection);
+    console.log("Crop selection: ", cropSelection);
+  }
+
+  const changeCrop = (crop) => {
+    setCrop(crop);
+    setTime("");
+    console.log("Crop: ", crop);
+  }
+
+  const changeTime = (time) => {
+    setTime(time);
+    setCrop("");
+    console.log("Time: ", time);
+  }
+
+  const handleFormSubmit = () => {
+    const dataToSend = { "mode": mode, "state": state, "district": district, "crop": crop, "time": time};
+    console.log(dataToSend);
+    console.log("Sending request");
+    axios({
+      method: "POST",
+      url:"/recommendation", 
+      data: dataToSend, 
+    })
+    .then((response) => {
+      const res =response.data
+      setOutput((res.output))
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
+  }
+
   return (
     <Fragment>
       <ContentBox className="analytics">
         <Grid container spacing={3}>
           <Grid item lg={8} md={8} sm={12} xs={12}>
             <StyledCard>
-              <MaximizationToggleCRS />
-              <LocationDropDownCRS />
-              <CropMonthDropDownCRS />
+              <MaximizationToggleCRS changeMode={changeMode} />
+              <LocationDropDownCRS
+                state={state}
+                changeState={changeState}
+                changeDistrict={changeDistrict}
+              />
+              <CropMonthComponentsCRS
+                cropSelection={cropSelection}
+                changeCropSelection={changeCropSelection}
+                changeCrop={changeCrop}
+                changeTime={changeTime}
+              />
               <InnerContentBox>
-                <Button variant="contained">Submit</Button>
+                <Button variant="contained" onClick={handleFormSubmit}>
+                  Submit
+                </Button>
               </InnerContentBox>
             </StyledCard>
 
-            <OutputCRS />
+            <OutputCRS output={output} />
 
             <StatCards />
             <TopSellingTable />
@@ -89,7 +168,11 @@ const Analytics = () => {
 
               <DoughnutChart
                 height="300px"
-                color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
+                color={[
+                  palette.primary.dark,
+                  palette.primary.main,
+                  palette.primary.light,
+                ]}
               />
             </Card>
 

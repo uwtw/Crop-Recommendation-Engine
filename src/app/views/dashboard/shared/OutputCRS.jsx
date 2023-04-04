@@ -6,13 +6,13 @@ const ContentBox = styled('div')(() => ({
   alignItems: 'center',
 }));
 
-const OutputCRS = () => {
+const OutputCRS = (props) => {
   return (
     <Grid style={{marginTop: 10}} container sx={{ mb: 3 }}>
       <Grid item xs={12}>
         <Card elevation={3} sx={{ p: 2 }}>
           <ContentBox>
-            <span style={{ paddingRight: 40, paddingLeft: 30 }}>Output goes here</span>
+            <span style={{ paddingRight: 40, paddingLeft: 30 }}>{props.output}</span>
           </ContentBox>
         </Card>
       </Grid>
