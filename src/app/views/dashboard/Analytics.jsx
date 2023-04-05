@@ -1,72 +1,76 @@
-import { Card, Grid, styled, useTheme, Button, Box } from '@mui/material';
-import { Fragment, useState } from 'react';
-import Campaigns from './shared/Campaigns';
-import DoughnutChart from './shared/Doughnut';
-import LocationDropDownCRS from './shared/LocationDropDownCRS';
-import MaximizationToggleCRS from './shared/MaximizationToggleCRS';
-import RowCards from './shared/RowCards';
-import StatCards from './shared/StatCards';
-import StatCards2 from './shared/StatCards2';
-import TopSellingTable from './shared/TopSellingTable';
-import UpgradeCard from './shared/UpgradeCard';
-import OutputCRS from './shared/OutputCRS';
+import { Card, Grid, styled, useTheme, Button, Box } from "@mui/material";
+import { Fragment, useState } from "react";
+import Campaigns from "./shared/Campaigns";
+import DoughnutChart from "./shared/Doughnut";
+import LocationDropDownCRS from "./shared/LocationDropDownCRS";
+import MaximizationToggleCRS from "./shared/MaximizationToggleCRS";
+import RowCards from "./shared/RowCards";
+import StatCards from "./shared/StatCards";
+import StatCards2 from "./shared/StatCards2";
+import TopSellingTable from "./shared/TopSellingTable";
+import UpgradeCard from "./shared/UpgradeCard";
+import OutputCRS from "./shared/OutputCRS";
 import CropMonthComponentsCRS from "./shared/CropMonthComponentsCRS";
 import axios from "axios";
-import React from 'react';
+import React from "react";
 
-const ContentBox = styled('div')(({ theme }) => ({
-  margin: '30px',
-  [theme.breakpoints.down('sm')]: { margin: '16px' },
+const ContentBox = styled("div")(({ theme }) => ({
+  margin: "30px",
+  [theme.breakpoints.down("sm")]: { margin: "16px" },
 }));
 
 const InnerContentBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  '& small': { color: theme.palette.text.secondary },
-  '& .icon': { opacity: 0.6, fontSize: '44px', color: theme.palette.primary.main },
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  "& small": { color: theme.palette.text.secondary },
+  "& .icon": {
+    opacity: 0.6,
+    fontSize: "44px",
+    color: theme.palette.primary.main,
+  },
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '24px !important',
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "24px !important",
   background: theme.palette.background.paper,
-  [theme.breakpoints.down('sm')]: { padding: '16px !important' },
+  [theme.breakpoints.down("sm")]: { padding: "16px !important" },
 }));
 
-const Title = styled('span')(() => ({
-  fontSize: '1rem',
-  fontWeight: '500',
-  marginRight: '.5rem',
-  textTransform: 'capitalize',
+const Title = styled("span")(() => ({
+  fontSize: "1rem",
+  fontWeight: "500",
+  marginRight: ".5rem",
+  textTransform: "capitalize",
 }));
 
-const SubTitle = styled('span')(({ theme }) => ({
-  fontSize: '0.875rem',
+const SubTitle = styled("span")(({ theme }) => ({
+  fontSize: "0.875rem",
   color: theme.palette.text.secondary,
 }));
 
-const H4 = styled('h4')(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: '500',
-  marginBottom: '16px',
-  textTransform: 'capitalize',
+const H4 = styled("h4")(({ theme }) => ({
+  fontSize: "1rem",
+  fontWeight: "500",
+  marginBottom: "16px",
+  textTransform: "capitalize",
   color: theme.palette.text.secondary,
 }));
 
 const Analytics = () => {
   const { palette } = useTheme();
 
-  const [mode, setMode] = React.useState('yield');
-  const [ state, setState ] = React.useState('');
-  const [ district, setDistrict ] = React.useState('');
-  const [ cropSelection, setCropSelection ] = React.useState(true);
-  const [ crop, setCrop ] = React.useState('');
-  const [ time, setTime ] = React.useState('');
-  const [ output, setOutput ] = useState('');
+  const [mode, setMode] = React.useState("yield");
+  const [state, setState] = React.useState("");
+  const [district, setDistrict] = React.useState("");
+  const [cropSelection, setCropSelection] = React.useState(true);
+  const [crop, setCrop] = React.useState("");
+  const [time, setTime] = React.useState("");
+  const [output, setOutput] = useState("");
 
   const changeMode = (state) => {
     if (state === true) {
@@ -74,57 +78,58 @@ const Analytics = () => {
     } else {
       setMode("yield");
     }
-    console.log("mode changed.", mode);
-  }
+  };
 
   const changeState = (state) => {
     setState(state);
-    console.log("state: ",state);
-  }
+  };
 
   const changeDistrict = (district) => {
     setDistrict(district);
-    console.log("District: ", district);
-  }
+  };
 
   const changeCropSelection = () => {
-    console.log("Crop selection before: ", cropSelection);
     setCropSelection(!cropSelection);
-    console.log("Crop selection: ", cropSelection);
-  }
+  };
 
   const changeCrop = (crop) => {
     setCrop(crop);
     setTime("");
-    console.log("Crop: ", crop);
-  }
+  };
 
   const changeTime = (time) => {
     setTime(time);
     setCrop("");
-    console.log("Time: ", time);
-  }
+  };
 
   const handleFormSubmit = () => {
-    const dataToSend = { "mode": mode, "state": state, "district": district, "crop": crop, "time": time};
+    const dataToSend = {
+      mode: mode,
+      state: state,
+      district: district,
+      crop: crop,
+      time: time,
+    };
     console.log(dataToSend);
     console.log("Sending request");
     axios({
       method: "POST",
-      url:"/recommendation", 
-      data: dataToSend, 
+      url: "http://127.0.0.1:5000/recommendation",
+      data: dataToSend,
     })
-    .then((response) => {
-      const res =response.data
-      setOutput((res.output))
-    }).catch((error) => {
-      if (error.response) {
-        console.log(error.response)
-        console.log(error.response.status)
-        console.log(error.response.headers)
+      .then((response) => {
+        const res = response.data;
+        setOutput(res["output1"]);
+        console.log("Response: ", res["output1"]);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
         }
-    })
-  }
+      });
+  };
 
   return (
     <Fragment>
