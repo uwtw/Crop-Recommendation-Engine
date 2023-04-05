@@ -30,17 +30,18 @@ const UpgradeCard = () => {
         <img src="/assets/images/illustrations/upgrade.svg" alt="upgrade" />
 
         <Paragraph>
-          Upgrade to <b>MatX PRO</b> for <br /> more resources
+          {/* Upgrade to <b>MatX PRO</b> for <br /> more resources */}
+          Maximise Yield and Profit with the help of <br /> CRS Tool
         </Paragraph>
 
-        <Button
+        {/* <Button
           size="large"
           color="primary"
           variant="contained"
           sx={{ textTransform: 'uppercase' }}
         >
           upgrade now
-        </Button>
+        </Button> */}
       </StyledCard>
     </CardRoot>
   );
